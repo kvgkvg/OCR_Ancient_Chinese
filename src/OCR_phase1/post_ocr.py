@@ -22,7 +22,7 @@ def polygon_to_bbox(points: List[List[int]]) -> List[int]:
 
 def sort_annotations(annotations: List[Dict]) -> List[Dict]:
     """
-    Sort annotations by reading order: right to left, top to bottom.
+    Sort annotations by reading order: top to bottom, right to left.
 
     Args:
         annotations: List of annotation dictionaries with 'bbox' field
@@ -55,10 +55,10 @@ def sort_annotations(annotations: List[Dict]) -> List[Dict]:
             'y_min': y_min
         })
 
-    # Sort by: right to left (descending x), top to bottom (ascending y)
+    # Sort by: top to bottom (ascending y), right to left (descending x)
     sorted_data = sorted(
         annotations_with_coords,
-        key=lambda a: (-a['x_min'], a['y_min'])
+        key=lambda a: (a['y_min'], -a['x_min'])
     )
 
     return [item['annotation'] for item in sorted_data]
