@@ -20,6 +20,50 @@ def polygon_to_bbox(points: List[List[int]]) -> List[int]:
     return [min(x_coords), min(y_coords), max(x_coords), max(y_coords)]
 
 
+def sort_annotations(annotations: List[Dict]) -> List[Dict]:
+    """
+    Sort annotations by reading order: right to left, top to bottom.
+
+    Args:
+        annotations: List of annotation dictionaries with 'bbox' field
+
+    Returns:
+        Sorted list of annotations
+    """
+    annotations_with_coords = []
+    for ann in annotations:
+        if 'bbox' in ann:
+            points = ann['bbox']
+        elif 'points' in ann:
+            points = ann['points']
+        else:
+            annotations_with_coords.append({
+                'annotation': ann,
+                'x_min': 0,
+                'y_min': 0
+            })
+            continue
+
+        x_coords = [p[0] for p in points]
+        y_coords = [p[1] for p in points]
+        x_min = min(x_coords)
+        y_min = min(y_coords)
+
+        annotations_with_coords.append({
+            'annotation': ann,
+            'x_min': x_min,
+            'y_min': y_min
+        })
+
+    # Sort by: right to left (descending x), top to bottom (ascending y)
+    sorted_data = sorted(
+        annotations_with_coords,
+        key=lambda a: (-a['x_min'], a['y_min'])
+    )
+
+    return [item['annotation'] for item in sorted_data]
+
+
 def should_skip_ocr(transcription: str, confidence: float, threshold: float) -> tuple[bool, str]:
     transcription = transcription.strip() if transcription else ""
 
@@ -239,6 +283,11 @@ def process_annotations(image_path: str,
         manifest_path = os.path.join(image_crops_dir, "manifest.json")
         with open(manifest_path, 'w', encoding='utf-8') as f:
             json.dump(manifest, f, ensure_ascii=False, indent=2)
+
+    # Sort annotations by reading order before returning
+    for category in ['comment', 'content']:
+        if category in updated_annotations and updated_annotations[category]:
+            updated_annotations[category] = sort_annotations(updated_annotations[category])
 
     return updated_annotations
 
