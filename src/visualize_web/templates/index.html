@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounding Box Annotation Tool</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Bounding Box Annotation Tool</h1>
+            <div class="path-input">
+                <label for="imageDir">Image Directory:</label>
+                <input type="text" id="imageDir" placeholder="Auto-loaded from IMAGE_DIR environment variable">
+                <button id="loadBtn" class="btn-primary">Reload</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel: Canvas -->
+            <div class="canvas-section">
+                <div class="canvas-container">
+                    <canvas id="annotationCanvas"></canvas>
+                </div>
+                <div class="zoom-controls">
+                    <button id="zoomIn" class="btn-icon" title="Zoom In">+</button>
+                    <button id="zoomOut" class="btn-icon" title="Zoom Out">-</button>
+                    <button id="fitToScreen" class="btn-icon" title="Fit to Screen">Fit</button>
+                    <span id="zoomLevel">100%</span>
+                </div>
+            </div>
+
+            <!-- Right Panel: Controls -->
+            <div class="control-panel">
+                <!-- Image Info -->
+                <div class="info-section">
+                    <h3>Current Image</h3>
+                    <p class="info-item"><strong>Name:</strong> <span id="imageName">-</span></p>
+                    <p class="info-item"><strong>Index:</strong> <span id="imageIndex">0 / 0</span></p>
+                </div>
+
+                <!-- Box List -->
+                <div class="box-section">
+                    <h3>Bounding Boxes (<span id="boxCount">0</span>)</h3>
+                    <div class="box-list-container">
+                        <ul id="boxListContainer"></ul>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation-section">
+                    <button id="prevBtn" class="btn-secondary">Previous</button>
+                    <button id="nextBtn" class="btn-secondary">Next</button>
+                    <button id="saveBtn" class="btn-primary" disabled>Save</button>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions-section">
+                    <h3>Instructions</h3>
+                    <ul>
+                        <li><strong>Draw:</strong> Click and drag on canvas to create new box</li>
+                        <li><strong>Select:</strong> Click on a box to select it</li>
+                        <li><strong>Resize:</strong> Drag corners or edges of selected box</li>
+                        <li><strong>Move:</strong> Drag inside selected box to move it</li>
+                        <li><strong>Delete:</strong> Press Delete key to remove selected box</li>
+                        <li><strong>Navigate:</strong> Use arrow keys or buttons</li>
+                        <li><strong>Deselect:</strong> Press Escape or click empty area</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span id="statusMessage">Loading images from IMAGE_DIR...</span>
+        </div>
+    </div>
+
+    <!-- Load JavaScript modules -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/boxManager.js"></script>
+    <script src="/static/js/canvas.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
