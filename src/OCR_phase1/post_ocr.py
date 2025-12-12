@@ -1,15 +1,15 @@
-from config import get_image_dir
 from paddleocr import TextRecognition
 import cv2
 import json
-import os
 from typing import List, Dict, Tuple
 from pathlib import Path
 import copy
 import numpy as np
 import sys
+import os
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from config import get_image_dir
 
 rec_model = TextRecognition(model_name="PP-OCRv5_server_rec")
 
@@ -310,13 +310,18 @@ def main():
         data = json.load(f)
 
     results = []
+    image_dir = Path(get_image_dir())
 
     for idx, item in enumerate(data):
         filename = item['filename']
         annotations = item['annotations']
 
+        image_path = image_dir / Path(filename).name
+        if not image_path.exists():
+            image_path = image_dir / filename
+
         updated_annotations = process_annotations(
-            filename,
+            str(image_path),
             annotations,
             confidence_threshold=confidence_threshold,
             rollback_threshold=rollback_threshold,

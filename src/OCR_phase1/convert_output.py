@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 from typing import Dict, List, Tuple
-import os
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -244,6 +243,7 @@ def convert_cache_to_json(cache_file: str, output_file: str = None,
 
 if __name__ == "__main__":
     images_dir = sys.argv[1] if len(sys.argv) > 1 else get_image_dir()
+    print(images_dir)
     images_dir = Path(images_dir)
 
     convert_cache_to_json(images_dir / "Cache.cach",
