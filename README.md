@@ -35,15 +35,16 @@ OCR_Ancient_Chinese/
 ### 1. Configure Image Directory
 
 Set `IMAGE_DIR` to point to your folder containing images for OCR:
+```bash
+export IMAGE_DIR=/path/to/your/images
+```
 
+And set environment variable directly:
 ```bash
 python set_config.py /path/to/your/images
 ```
 
-Or set environment variable directly:
-```bash
-export IMAGE_DIR=/path/to/your/images
-```
+
 
 The `IMAGE_DIR` should contain PNG images that you want to perform OCR on.
 
