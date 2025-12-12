@@ -69,12 +69,7 @@ Clone the PPOCRLabel repository:
 git clone https://github.com/PFCCLab/PPOCRLabel.git
 ```
 
-Install PPOCRLabel dependencies:
-
-```bash
-cd PPOCRLabel
-pip install -r requirements.txt
-```
+Then follow their installation instructions...
 
 **Important:** Replace the default `PPOCRLabel.py` with the custom version:
 
