@@ -1,3 +1,4 @@
+from config import get_image_dir
 from paddleocr import TextRecognition
 import cv2
 import json
@@ -9,7 +10,6 @@ import numpy as np
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from config import get_image_dir
 
 rec_model = TextRecognition(model_name="PP-OCRv5_server_rec")
 
@@ -287,20 +287,24 @@ def process_annotations(image_path: str,
     # Sort annotations by reading order before returning
     for category in ['comment', 'content']:
         if category in updated_annotations and updated_annotations[category]:
-            updated_annotations[category] = sort_annotations(updated_annotations[category])
+            updated_annotations[category] = sort_annotations(
+                updated_annotations[category])
 
     return updated_annotations
 
 
 def main():
-    input_file = sys.argv[1] if len(sys.argv) > 1 else f'{get_image_dir()}/output_reanno.json'
-    output_file = sys.argv[2] if len(sys.argv) > 2 else f'{get_image_dir()}/output_final.json'
+    input_file = sys.argv[1] if len(
+        sys.argv) > 1 else f'{get_image_dir()}/output_reanno.json'
+    output_file = sys.argv[2] if len(
+        sys.argv) > 2 else f'{get_image_dir()}/output_final.json'
 
     confidence_threshold = 0.6
     rollback_threshold = 0.4
     enable_preprocessing = True
     save_crops = True
-    crops_dir = sys.argv[3] if len(sys.argv) > 3 else f'{get_image_dir()}/ocr_crops'
+    crops_dir = sys.argv[3] if len(
+        sys.argv) > 3 else f'{get_image_dir()}/ocr_crops'
 
     with open(input_file, 'r', encoding='utf-8') as f:
         data = json.load(f)
